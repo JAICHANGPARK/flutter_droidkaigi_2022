@@ -42,6 +42,11 @@ dependencies:
   flutter_riverpod: ^2.0.0-dev.9
   widget_with_codeview: ^2.0.1+2
 
+  firebase_core: any
+  firebase_crashlytics: ^2.8.10
+  firebase_analytics: any
+  url_launcher: ^6.1.5
+  google_fonts: any
 
 dev_dependencies:
   flutter_test:
