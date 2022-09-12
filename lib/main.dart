@@ -1,22 +1,52 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_droidkaigi_2022/src/provider/theme_provider.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/flutter_3/flutter_3_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
+import 'src/screen/kaigi_main_screen.dart';
 import 'src/screen/theme/theme_screen.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+void main() async {
   usePathUrlStrategy();
-  runApp(ProviderScope(child: FlutterDroidKaigi2022App()));
+  if (kIsWeb) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    runApp(ProviderScope(child: FlutterDroidKaigi2022App()));
+  } else {
+    runZonedGuarded<Future<void>>(() async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+      runApp(ProviderScope(child: FlutterDroidKaigi2022App()));
+    }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
+  }
 }
 
 class FlutterDroidKaigi2022App extends StatelessWidget {
   FlutterDroidKaigi2022App({super.key});
 
   final GoRouter _router = GoRouter(
+    observers: [
+      FirebaseAnalyticsObserver(analytics: analytics),
+    ],
     routes: <GoRoute>[
       GoRoute(
         path: '/',
@@ -34,6 +64,7 @@ class FlutterDroidKaigi2022App extends StatelessWidget {
       builder: (context, ref, _) {
         final themeData = ref.watch(themeProvider);
         return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           title: 'Droidkaigi2022',
           theme: themeData,
           routeInformationParser: _router.routeInformationParser,
@@ -56,6 +87,19 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
   int _pageIndex = 0;
   bool _railExtended = true;
 
+  Widget buildIndexStack() {
+    return IndexedStack(
+      index: _pageIndex,
+      children: [
+        KaigiHomeScreen(),
+        Flutter3Screen(),
+        const ThemeScreen(),
+        Container(),
+        Container(),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -71,13 +115,7 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
                 width: 200,
               ),
             ),
-            body: IndexedStack(
-              index: _pageIndex,
-              children: [
-                Container(),
-                const ThemeScreen(),
-              ],
-            ),
+            body: buildIndexStack(),
             bottomNavigationBar: NavigationBar(
               selectedIndex: _pageIndex,
               onDestinationSelected: (idx) {
@@ -91,9 +129,21 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
                   label: "Home",
                 ),
                 NavigationDestination(
+                  icon: Icon(Icons.flutter_dash),
+                  label: "Flutter3",
+                ),
+                NavigationDestination(
                   icon: Icon(Icons.palette_outlined),
                   label: "Theme",
-                )
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.smart_toy_outlined),
+                  label: "ROS2",
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.view_in_ar_outlined),
+                  label: "Monitor",
+                ),
               ],
             ),
           );
@@ -123,37 +173,49 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
                     label: Text("Home"),
                   ),
                   NavigationRailDestination(
+                    icon: Icon(Icons.flutter_dash),
+                    label: Text("Flutter3"),
+                  ),
+                  NavigationRailDestination(
                     icon: Icon(Icons.palette_outlined),
                     label: Text("Design & Theme"),
-                  )
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.smart_toy_outlined),
+                    label: Text("ROS2"),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.view_in_ar_outlined),
+                    label: Text("Monitor"),
+                  ),
                 ],
                 elevation: 4,
                 selectedIndex: _pageIndex,
                 trailing: Expanded(
                   child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 32),
-                        child: FloatingActionButton(
-                          onPressed: () {
-                            setState(() {
-                              _railExtended = !_railExtended;
-                            });
-                          },
-                          child:
-                              _railExtended ? const Icon(Icons.arrow_back_outlined) : const Icon(Icons.arrow_forward),
-                        ),
-                      )),
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 32),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          setState(() {
+                            _railExtended = !_railExtended;
+                          });
+                        },
+                        child: _railExtended
+                            ? const Icon(
+                                Icons.arrow_back_outlined,
+                              )
+                            : const Icon(
+                                Icons.arrow_forward,
+                              ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Expanded(
-                child: IndexedStack(
-                  index: _pageIndex,
-                  children: [
-                    Container(),
-                    const ThemeScreen(),
-                  ],
-                ),
+                child: buildIndexStack(),
               ),
             ],
           ),

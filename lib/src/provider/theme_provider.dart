@@ -11,6 +11,7 @@ final themeProvider = StateNotifierProvider<ThemeController, ThemeData>((ref) {
     colorSchemeSeed: colorOptions[0],
     useMaterial3: ref.read(useMaterial3),
     brightness: ref.read(useLightMode) ? Brightness.light : Brightness.dark,
+
   );
   return ThemeController(themeData, ref.read);
 });
@@ -27,7 +28,9 @@ class ThemeController extends StateNotifier<ThemeData> {
     return ThemeData(
         colorSchemeSeed: colorOptions[colorIndex],
         useMaterial3: useMaterial3,
-        brightness: useLightMode ? Brightness.light : Brightness.dark);
+        brightness: useLightMode ? Brightness.light : Brightness.dark,
+
+    );
   }
 
   void handleBrightnessChange() {

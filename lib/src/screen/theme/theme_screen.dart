@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_droidkaigi_2022/const.dart';
 import 'package:flutter_droidkaigi_2022/src/provider/theme_provider.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/theme/app_bar_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/theme/color_palettes_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/theme/component_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/theme/elevation_screen.dart';
@@ -18,7 +19,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -62,24 +63,25 @@ class _ThemeScreenState extends State<ThemeScreen> {
                 itemBuilder: (context) {
                   return List.generate(colorOptions.length, (index) {
                     return PopupMenuItem(
-                        value: index,
-                        child: Wrap(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Icon(
-                                index == state ? Icons.color_lens : Icons.color_lens_outlined,
-                                color: colorOptions[index],
-                              ),
+                      value: index,
+                      child: Wrap(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Icon(
+                              index == state ? Icons.color_lens : Icons.color_lens_outlined,
+                              color: colorOptions[index],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Text(
-                                colorText[index],
-                              ),
-                            )
-                          ],
-                        ));
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text(
+                              colorText[index],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   });
                 },
                 onSelected: ref.read(themeProvider.notifier).handleColorSelect,
@@ -99,6 +101,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   text: "Components",
                 ),
                 Tab(
+                  icon: Icon(Icons.brightness_auto_rounded),
+                  text: "AppBar",
+                ),
+                Tab(
                   icon: Icon(Icons.format_paint_outlined),
                   text: "Color",
                 ),
@@ -115,6 +121,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
             child: TabBarView(
               children: [
                 ComponentScreen(showNavBottomBar: true),
+                AppBarScreen(),
                 ColorPalettesScreen(),
                 TypographyScreen(),
                 ElevationScreen(),

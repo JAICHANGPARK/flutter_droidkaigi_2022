@@ -30,41 +30,39 @@ class ElevationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Color shadowColor = Theme.of(context).colorScheme.shadow;
     Color surfaceTint = Theme.of(context).colorScheme.primary;
-    return Expanded(
-      child: ListView(
-        controller: ScrollController(),
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 20, 16.0, 0),
-            child: Text(
-              'Surface Tint only',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+    return ListView(
+      controller: ScrollController(),
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 20, 16.0, 0),
+          child: Text(
+            'Surface Tint only',
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          ElevationGrid(surfaceTintColor: surfaceTint),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
-            child: Text(
-              'Surface Tint and Shadow',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+        ),
+        ElevationGrid(surfaceTintColor: surfaceTint),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
+          child: Text(
+            'Surface Tint and Shadow',
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          ElevationGrid(
-            shadowColor: shadowColor,
-            surfaceTintColor: surfaceTint,
+        ),
+        ElevationGrid(
+          shadowColor: shadowColor,
+          surfaceTintColor: surfaceTint,
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
+          child: Text(
+            'Shadow only',
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
-            child: Text(
-              'Shadow only',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          ElevationGrid(shadowColor: shadowColor)
-        ],
-      ),
+        ),
+        ElevationGrid(shadowColor: shadowColor)
+      ],
     );
   }
 }

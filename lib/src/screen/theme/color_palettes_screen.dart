@@ -45,51 +45,49 @@ class ColorPalettesScreen extends StatelessWidget {
       );
     }
 
-    return Expanded(
-      child: LayoutBuilder(builder: (context, constraints) {
-        if (constraints.maxWidth < narrowScreenWidthThreshold) {
-          return SingleChildScrollView(
-            child: Column(
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth < narrowScreenWidthThreshold) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              divider,
+              schemeLabel("Light Theme"),
+              schemeView(lightTheme),
+              divider,
+              divider,
+              schemeLabel("Dark Theme"),
+              schemeView(darkTheme)
+            ],
+          ),
+        );
+      } else {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: Row(
               children: [
-                divider,
-                schemeLabel("Light Theme"),
-                schemeView(lightTheme),
-                divider,
-                divider,
-                schemeLabel("Dark Theme"),
-                schemeView(darkTheme)
+                Expanded(
+                  child: Column(
+                    children: [
+                      schemeLabel("Light Theme"),
+                      schemeView(lightTheme),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      schemeLabel("Dark Theme"),
+                      schemeView(darkTheme),
+                    ],
+                  ),
+                )
               ],
             ),
-          );
-        } else {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        schemeLabel("Light Theme"),
-                        schemeView(lightTheme),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        schemeLabel("Dark Theme"),
-                        schemeView(darkTheme),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        }
-      }),
-    );
+          ),
+        );
+      }
+    });
   }
 }
 

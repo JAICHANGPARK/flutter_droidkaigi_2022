@@ -18,72 +18,89 @@ class ComponentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: SizedBox(
-            width: _maxWidthConstraint,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                _colDivider,
-                _colDivider,
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Buttons"),
-                ),
-                const Buttons(),
-                _colDivider,
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("FloatingActionButtons"),
-                ),
-                const FloatingActionButtons(),
-                _colDivider,
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Cards"),
-                ),
-                const Cards(),
-                _colDivider,
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Chips"),
-                ),
-                Chips(),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Switchs"),
-                ),
-                Switchs(),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Sliders"),
-                ),
-                Sliders(),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Dialogs"),
-                ),
-                const Dialogs(),
-                _colDivider,
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("NavigationBars"),
-                ),
-                showNavBottomBar
-                    ? const NavigationBars(
-                        selectedIndex: 0,
-                        isExampleBar: true,
-                      )
-                    : Container(),
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: _maxWidthConstraint,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              _colDivider,
+              _colDivider,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Buttons"),
+              ),
+              const Buttons(),
+              _colDivider,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("FloatingActionButtons"),
+              ),
+              const FloatingActionButtons(),
+              _colDivider,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Cards"),
+              ),
+              const Cards(),
+              _colDivider,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Chips"),
+              ),
+              const Chips(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Switchs"),
+              ),
+              const Switchs(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Sliders"),
+              ),
+              const Sliders(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Dialogs"),
+              ),
+              const Dialogs(),
+              _colDivider,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("NavigationBars"),
+              ),
+              showNavBottomBar
+                  ? const NavigationBars(
+                      selectedIndex: 0,
+                      isExampleBar: true,
+                    )
+                  : Container(),
+            ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class IconButtons extends StatefulWidget {
+  const IconButtons({Key? key}) : super(key: key);
+
+  @override
+  State<IconButtons> createState() => _IconButtonsState();
+}
+
+class _IconButtonsState extends State<IconButtons> {
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: [
+        IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
+       
+      ],
     );
   }
 }
@@ -385,32 +402,34 @@ class _ChipsState extends State<Chips> {
       spacing: 16,
       runSpacing: 16,
       children: [
-        Chip(label: Text('Normal Chip')),
-        ActionChip(label: Text('Action Chip')),
+        const Chip(label: Text('Normal Chip')),
+        const ActionChip(label: Text('Action Chip')),
         FilterChip(
-          label: Text('Filter Chip : True'),
+          label: const Text('Filter Chip : True'),
           onSelected: (d) {},
           selected: true,
         ),
         FilterChip(
-          label: Text('Filter Chip: False'),
+          label: const Text('Filter Chip: False'),
           onSelected: (d) {},
           selected: false,
         ),
         ChoiceChip(
-          label: Text('Choice Chip : True'),
+          label: const Text('Choice Chip : True'),
           onSelected: (d) {},
           selected: true,
         ),
         ChoiceChip(
-          label: Text('Choice Chip : False'),
+          label: const Text('Choice Chip : False'),
           onSelected: (d) {},
           selected: false,
         ),
-        InputChip(
+        const InputChip(
           label: Text('Input Chip : True'),
         ),
-        RawChip(label: Text('Raw Chip'),)
+        const RawChip(
+          label: Text('Raw Chip'),
+        )
       ],
     );
   }
