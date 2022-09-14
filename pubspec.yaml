@@ -47,6 +47,10 @@ dependencies:
   firebase_analytics: any
   url_launcher: ^6.1.5
   google_fonts: any
+  flutter_animate: ^1.0.0
+
+  package_info_plus: ^1.4.3+1
+  youtube_player_iframe: ^3.0.4
 
 dev_dependencies:
   flutter_test:
