@@ -92,8 +92,6 @@ class _ThemeScreenState extends State<ThemeScreen> {
           TabBar(
               labelColor: Theme.of(context).colorScheme.primary,
               indicatorColor: Theme.of(context).colorScheme.primary,
-              // unselectedLabelColor: Colors.grey,
-
               isScrollable: true,
               tabs: const [
                 Tab(
@@ -119,6 +117,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
               ]),
           const Expanded(
             child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
               children: [
                 ComponentScreen(showNavBottomBar: true),
                 AppBarScreen(),
