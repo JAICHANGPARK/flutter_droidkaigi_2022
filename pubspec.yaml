@@ -50,7 +50,11 @@ dependencies:
   flutter_animate: ^1.0.0
 
   package_info_plus: ^1.4.3+1
-  youtube_player_iframe: ^3.0.4
+  youtube_player_iframe: ^3.1.0
+  http: any
+
+  flame: ^1.3.0
+  get_it: any
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +81,7 @@ flutter:
   assets:
     - assets/
     - lib/
+    - assets/images/game/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
