@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "206286600346",
+    "project_id": "droidkaigi-2022",
+    "storage_bucket": "droidkaigi-2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206286600346:android:693d75517f669a472c4723",
+        "android_client_info": {
+          "package_name": "com.dreamwalker.flutter_droidkaigi_2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206286600346-f2326hvd1dpjgq8la66q73ihf1pfkoko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_8T9F8kVvjv41taur-uUeFsndNd-2Yu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206286600346-f2326hvd1dpjgq8la66q73ihf1pfkoko.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "206286600346-dmacb46o0kaf6v51o4do2i7ahk402dtm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dreamwalker.flutterDroidkaigi2022"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
