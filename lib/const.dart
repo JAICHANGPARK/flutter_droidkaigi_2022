@@ -13,6 +13,7 @@ const List<Color> colorOptions = [
   Colors.orange,
   Colors.pink,
 ];
+
 const List<String> colorText = <String>[
   "M3 Baseline",
   "DroidKaigi Theme",
@@ -23,3 +24,8 @@ const List<String> colorText = <String>[
   "Orange",
   "Pink",
 ];
+
+const String kDefaultUrl = "https://fakeface.rest/face/json";
+const String kInitialUrl = "https://thispersondoesnotexist.com/image";
+const String kCorsProxyUrl =
+    "https://random-face-generator-proxy.herokuapp.com/";

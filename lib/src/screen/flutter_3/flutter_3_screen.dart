@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/component/fake_face_widget.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/flutter_3/flutter_3_info_page.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/flutter_3/flutter_google_io_22_page.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/flutter_3/flutter_happy_path_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -37,8 +43,6 @@ class Flutter3Screen extends StatefulWidget {
 }
 
 class _Flutter3ScreenState extends State<Flutter3Screen> {
-  TextEditingController textEditingController = TextEditingController();
-
   final initialContent =
       '<h4> This is some hardcoded HTML code embedded inside the webview <h4> <h2> Hello world! <h2>';
   late YoutubePlayerController _controller;
@@ -49,46 +53,6 @@ class _Flutter3ScreenState extends State<Flutter3Screen> {
     // TODO: implement initState
     super.initState();
 
-    // for (var element in googleIOItems) {
-    //   _controllerItems.add(YoutubePlayerController(
-    //     params: const YoutubePlayerParams(
-    //       showControls: true,
-    //       mute: false,
-    //       showFullscreenButton: true,
-    //       loop: false,
-    //     ),
-    //   )
-    //     ..onInit = () {
-    //       _controller.loadPlaylist(
-    //         list: [element.link ?? ""],
-    //         listType: ListType.userUploads,
-    //         startSeconds: 0,
-    //       );
-    //     }
-    //     ..onFullscreenChange = (isFullScreen) {
-    //       // log('${isFullScreen ? 'Entered' : 'Exited'} Fullscreen.');
-    //     });
-    // }
-
-    // _controller = YoutubePlayerController(
-    //   params: const YoutubePlayerParams(
-    //     showControls: true,
-    //     mute: false,
-    //     showFullscreenButton: true,
-    //     loop: false,
-    //     autoPlay: false,
-    //   ),
-    // )
-    //   ..onInit = () {
-    //     _controller.cuePlaylist(
-    //       list: googleIOItems.map((e) => e.link ?? "").toList(),
-    //       listType: ListType.userUploads,
-    //       startSeconds: 0,
-    //     );
-    //   }
-    //   ..onFullscreenChange = (isFullScreen) {
-    //     // log('${isFullScreen ? 'Entered' : 'Exited'} Fullscreen.');
-    //   };
     _controllerItems = List.generate(
       googleIOItems.length,
       (index) => YoutubePlayerController.fromVideoId(
@@ -113,7 +77,7 @@ class _Flutter3ScreenState extends State<Flutter3Screen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         body: Column(
           children: [
@@ -133,147 +97,50 @@ class _Flutter3ScreenState extends State<Flutter3Screen> {
                   Tab(
                     text: "Flutter Viking 22",
                     icon: Icon(Icons.sailing),
+                  ),
+                  Tab(
+                    text: "Happy Path",
+                    icon: Icon(Icons.sentiment_satisfied),
                   )
                 ]),
             Expanded(
               child: TabBarView(
                 children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "May 11, 2022, Google I/O Edition: Flutter 3 release",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          ListTile(
-                            title: const Text("Introducing Flutter 3"),
-                            onTap: () {
-                              launchUrl(Uri.parse("https://medium.com/flutter/introducing-flutter-3-5eb69151622f"));
-                            },
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          ),
-                          ListTile(
-                            title: const Text("What’s new in Flutter 3"),
-                            onTap: () {
-                              launchUrl(Uri.parse("https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0"));
-                            },
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          ),
-                          ListTile(
-                            title: const Text("Dart 2.17: Productivity and integration"),
-                            onTap: () {
-                              launchUrl(Uri.parse("https://medium.com/dartlang/dart-2-17-b216bfc80c5d"));
-                            },
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          ),
-                          const Divider(),
-                          Text(
-                            "Aug 31, 2022, Flutter Vikings Edition: 3.3 release",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          ListTile(
-                            title: const Text("Announcing Flutter 3.3 at Flutter Vikings"),
-                            onTap: () {
-                              launchUrl(Uri.parse(
-                                  "https://medium.com/flutter/announcing-flutter-3-3-at-flutter-vikings-6f213e068793"));
-                            },
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          ),
-                          ListTile(
-                            title: const Text("What’s new in Flutter 3.3"),
-                            onTap: () {
-                              launchUrl(Uri.parse("https://medium.com/flutter/whats-new-in-flutter-3-3-893c7b9af1ff"));
-                            },
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          ),
-                          ListTile(
-                            title: const Text("Dart 2.18: Objective-C & Swift interop"),
-                            onTap: () {
-                              launchUrl(Uri.parse("https://medium.com/dartlang/dart-2-18-f4b3101f146c"));
-                            },
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          ),
-                          const Divider(),
-                          Text(
-                            "SelectionArea",
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          SelectionArea(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const <Widget>[
-                                Text('Selection Row 1'),
-                                Text('Selection Row 2'),
-                                Text('Selection Row 3'),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 32,
-                          ),
-                          Text(
-                            "Scribble",
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          SizedBox(
-                            height: 320,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    maxLines: 10,
-                                    scribbleEnabled: true,
-                                    controller: textEditingController,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: "Scribble text",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  const Flutter3InfoPage(),
+                  const FlutterGoogleIO22Page(),
                   Column(
                     children: [
                       ListTile(
-                        title: Text("Flutter at I/O 2022 プレイリスト"),
-                        subtitle: Text("動画が再生できない場合は、プレイリストを確認してください。"),
-                        onTap: () {
-                          launchUrl(Uri.parse("https://youtube.com/playlist?list=PLjxrf2q8roU1kHjuHoFGBLCxjy4h2WOcP"));
-                        },
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                      Expanded(
-                        child: VideoListPage(
-                          videoListIds: googleIOItems.map((e) => e.link ?? "").toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      ListTile(
-                        title: Text("Flutter Vikings - Sept 2022 プレイリスト"),
-                        subtitle: Text("動画が再生できない場合は、プレイリストを確認してください。"),
+                        title: const Text("Flutter Vikings - Sept 2022 プレイリスト"),
+                        subtitle: const Text("動画が再生できない場合は、プレイリストを確認してください。"),
                         onTap: () {
                           launchUrl(Uri.parse("https://youtube.com/playlist?list=PL4dBIh1xps-EWXK28Qn9kiLK9-eXyqKLX"));
                         },
-                        trailing: Icon(Icons.keyboard_arrow_right),
+                        trailing: const Icon(Icons.keyboard_arrow_right),
                       ),
                       Expanded(
-                        child: VideoListPage(
-                          videoListIds: _videoIds,
-                        ),
+                        child: kIsWeb
+                            ? VideoListPage(
+                                videoListIds: _videoIds,
+                              )
+                            : (defaultTargetPlatform == TargetPlatform.windows)
+                                ? Column(
+                                    children: [
+                                      const FakeFaceWidget(),
+                                      Container(
+                                        padding: const EdgeInsets.all(16),
+                                        decoration: BoxDecoration(border: Border.all()),
+                                        child: const Text("サポートしていないプラットフォームです。"),
+                                      )
+                                    ],
+                                  )
+                                : VideoListPage(
+                                    videoListIds: _videoIds,
+                                  ),
                       ),
                     ],
                   ),
+                  const FlutterHappyPathPage()
                 ],
               ),
             ),
@@ -400,7 +267,7 @@ class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveCl
               separatorBuilder: (context, _) => const SizedBox(height: 16),
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         });
   }
 

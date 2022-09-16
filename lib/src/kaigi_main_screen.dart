@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/flutter_3/flutter_3_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/kaigi_main_screen.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/ros2/ros2_home_page.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/theme/theme_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,7 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
         const KaigiHomeScreen(),
         const Flutter3Screen(),
         const ThemeScreen(),
-        Container(),
+        const Ros2HomePage(),
         Container(),
       ],
     );
@@ -101,6 +102,7 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
                   label: "Monitor",
                 ),
               ],
+              labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
             ),
             floatingActionButton: buildFab("1"),
           );
@@ -116,6 +118,7 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
                   });
                 },
                 extended: _railExtended,
+                labelType: _railExtended ? NavigationRailLabelType.none : NavigationRailLabelType.selected,
                 destinations: const [
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
@@ -146,6 +149,7 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 32),
                       child: FloatingActionButton(
+                        heroTag: "3",
                         onPressed: () {
                           setState(() {
                             _railExtended = !_railExtended;

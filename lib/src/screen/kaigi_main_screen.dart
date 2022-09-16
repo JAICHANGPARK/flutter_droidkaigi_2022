@@ -136,6 +136,19 @@ class _KaigiHomeScreenState extends State<KaigiHomeScreen> {
                         height: 16,
                       ),
                       const Divider(),
+
+                      ListTile(
+                        leading: const Text("現"),
+                        title: const Text("Flutter Korea"),
+                        subtitle: const Text("2022~"),
+                        trailing: const Text("Organizer(運営)"),
+                        onTap: () async {
+                          await launchUrl(
+                            Uri.parse("https://medium.com/flutter-korea"),
+                          );
+                        },
+                      ),
+                      const Divider(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
