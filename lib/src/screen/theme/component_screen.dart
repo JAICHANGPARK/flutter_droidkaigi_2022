@@ -309,22 +309,26 @@ class FloatingActionButtons extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           FloatingActionButton.small(
+            heroTag: "00",
             onPressed: () {},
             child: const Icon(Icons.add),
           ),
           _rowDivider,
           FloatingActionButton(
+            heroTag: "01",
             onPressed: () {},
             child: const Icon(Icons.add),
           ),
           _rowDivider,
           FloatingActionButton.extended(
+            heroTag: "02",
             onPressed: () {},
             icon: const Icon(Icons.add),
             label: const Text("Create"),
           ),
           _rowDivider,
           FloatingActionButton.large(
+            heroTag: "03",
             onPressed: () {},
             child: const Icon(Icons.add),
           ),

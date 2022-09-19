@@ -74,12 +74,12 @@ class _MonitorHomePageState extends State<MonitorHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView(
+        children: [
+          SizedBox(
+            child: Row(
               children: [
                 Expanded(
                   child: TextField(
@@ -110,36 +110,40 @@ class _MonitorHomePageState extends State<MonitorHomePage> {
                 )),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await connect();
-                    },
-                    child: const Text("接続"),
-                  ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await connect();
+                  },
+                  child: const Text("接続"),
                 ),
-                const SizedBox(
-                  width: 4,
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              Expanded(
+                flex: 3,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    destroyConnection();
+                  },
+                  child: const Text("接続解除"),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      destroyConnection();
-                    },
-                    child: const Text("接続解除"),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          ),
+          Text("Temperature"),
+          Text("CPU"),
+          Text("GPU"),
+          Text("Battery"),
+        ],
       ),
     );
   }

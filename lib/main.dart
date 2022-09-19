@@ -9,6 +9,7 @@ import 'package:flutter_droidkaigi_2022/src/game/manager/game_manager.dart';
 import 'package:flutter_droidkaigi_2022/src/kaigi_main_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/provider/theme_provider.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/enter_screen.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/enter_vertical_text.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/lab/lab_home_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/setting_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/service_locator.dart';
@@ -23,7 +24,8 @@ FirebaseAnalytics? analytics;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   getIt.registerSingleton<GameManager>(GameManager());
-  usePathUrlStrategy();;
+  usePathUrlStrategy();
+
   if (kIsWeb) {
     print("This is Web");
     await Firebase.initializeApp(
@@ -85,7 +87,8 @@ class FlutterDroidKaigi2022App extends StatelessWidget {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return const EnterScreen();
+          // return const EnterScreen();
+          return EnterVerticalTextPage();
         },
       ),
       GoRoute(

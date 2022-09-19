@@ -329,6 +329,7 @@ class _DoublePendulumState extends State<DoublePendulum> with SingleTickerProvid
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: FloatingActionButton(
+                  heroTag: "start_stop",
                   backgroundColor: Theme.of(context).primaryColorLight,
                   onPressed: () {
                     setState(() {
