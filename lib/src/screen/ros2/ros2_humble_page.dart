@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Ros2HumblePage extends StatefulWidget {
   const Ros2HumblePage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class _Ros2HumblePageState extends State<Ros2HumblePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: ListView(
         children: [
           Text(
@@ -31,6 +32,27 @@ class _Ros2HumblePageState extends State<Ros2HumblePage> {
                 height: MediaQuery.of(context).size.height / 2.5,
               ),
             ],
+          ),
+          const Divider(),
+          const Text(
+            "LinuxまたはUbuntuオペレーティングシステムの使用をお勧めします。",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          const Divider(),
+          const ListTile(
+            title: Text("Ubuntu"),
+            trailing: Text("22.04"),
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text("Installation"),
+            leading: const Icon(Icons.description),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              launchUrl(Uri.parse("https://docs.ros.org/en/humble/Installation.html"));
+            },
           ),
         ],
       ),

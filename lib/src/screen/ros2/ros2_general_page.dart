@@ -97,7 +97,7 @@ class _Ros2GeneralPageState extends State<Ros2GeneralPage> {
             leading: const Icon(Icons.chat_rounded),
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              launchUrl(Uri.parse(" https://discourse.ros.org/"));
+              launchUrl(Uri.parse("https://discourse.ros.org/"));
             },
           ),
           const Divider(),
@@ -218,6 +218,15 @@ class _Ros2GeneralPageState extends State<Ros2GeneralPage> {
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () {
               launchUrl(Uri.parse("https://github.com/vmayoral/ros-robotics-companies"));
+            },
+          ),
+          Image.asset("assets/ros_industrial_logo.jpg"),
+          ListTile(
+            title: const Text("ROS Industrial"),
+            leading: const Icon(Icons.description),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              launchUrl(Uri.parse("http://wiki.ros.org/Industrial"));
             },
           ),
         ],
