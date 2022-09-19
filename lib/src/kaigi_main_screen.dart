@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/flutter_3/flutter_3_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/kaigi_main_screen.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/monitor/monitor_home_page.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/ros2/ros2_home_page.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/theme/theme_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,12 +21,12 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
   Widget buildIndexStack() {
     return IndexedStack(
       index: _pageIndex,
-      children: [
-        const KaigiHomeScreen(),
-        const Flutter3Screen(),
-        const ThemeScreen(),
-        const Ros2HomePage(),
-        Container(),
+      children: const [
+        KaigiHomeScreen(),
+        Flutter3Screen(),
+        ThemeScreen(),
+        Ros2HomePage(),
+        MonitorHomePage(),
       ],
     );
   }
@@ -42,6 +43,7 @@ class _KaigiMainScreenState extends State<KaigiMainScreen> {
           ),
         ),
       ],
+      leading: const FlutterLogo(),
       foregroundColor: Colors.white,
       centerTitle: true,
       backgroundColor: Colors.black,

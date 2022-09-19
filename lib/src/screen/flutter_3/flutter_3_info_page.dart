@@ -22,7 +22,7 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
           children: [
             Text(
               "May 11, 2022, Google I/O Edition: Flutter 3 release",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             ListTile(
               title: const Text("Introducing Flutter 3"),
@@ -32,6 +32,9 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
             ),
+            Divider(
+              color: Colors.grey[200],
+            ),
             ListTile(
               title: const Text("What’s new in Flutter 3"),
               leading: const Icon(Icons.newspaper),
@@ -39,6 +42,9 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
                 launchUrl(Uri.parse("https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0"));
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              color: Colors.grey[200],
             ),
             ListTile(
               title: const Text("Dart 2.17: Productivity and integration"),
@@ -48,7 +54,25 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
             ),
-            SizedBox(
+            Divider(
+              color: Colors.grey[200],
+            ),
+            Text(
+              "Apple Silicon 対応",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Image.network(
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Apple_M1.jpg/800px-Apple_M1.jpg",
+              height: 200,
+            ),
+            const Text(
+              'source: https://en.wikipedia.org/wiki/Apple_silicon#/media/File:Apple_M1.jpg',
+              style: TextStyle(fontSize: 12),
+            ),
+            Divider(
+              color: Colors.grey[200],
+            ),
+            const SizedBox(
               height: 16,
             ),
             Text(
@@ -66,19 +90,19 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
                         ),
                         builder: (context) {
                           return Container(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 8, bottom: 16),
+                                  margin: const EdgeInsets.only(top: 8, bottom: 16),
                                   height: 2,
                                   width: 64,
                                   color: Colors.grey,
                                 ),
-                                Text(
+                                const Text(
                                     """🕹👾 Announcing the Flutter Casual Games Toolkit! Let Flutter help you get your game from idea to launch. Get started now → https://goo.gle/39bA01N """),
                                 Image.network("https://pbs.twimg.com/media/FSgl1OfUcAEsiQV?format=jpg&name=small"),
-                                Text('@FlutterDev'),
+                                const Text('@FlutterDev'),
                               ],
                             ),
                           );
@@ -89,10 +113,10 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
                     height: 400,
                   ),
                 ),
-                Text("source: https://flutter.dev/games"),
+                const Text("source: https://flutter.dev/games"),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             GestureDetector(
@@ -103,12 +127,15 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
             ),
             ListTile(
               title: const Text("Google I/O Pinball"),
-              subtitle: Text("押すとゲームが実行されます。"),
+              subtitle: const Text("押すとゲームが実行されます。"),
               leading: const Icon(Icons.sports_esports_outlined),
               onTap: () {
                 launchUrl(Uri.parse("https://pinball.flutter.dev/"));
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              color: Colors.grey[200],
             ),
             ListTile(
               title: const Text("Casual Games Toolkit"),
@@ -118,10 +145,15 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
             ),
-            const Divider(),
+            Divider(
+              color: Colors.grey[200],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             Text(
               "Aug 31, 2022, Flutter Vikings Edition: 3.3 release",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             ListTile(
               title: const Text("Announcing Flutter 3.3 at Flutter Vikings"),
@@ -132,6 +164,9 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
             ),
+            Divider(
+              color: Colors.grey[200],
+            ),
             ListTile(
               title: const Text("What’s new in Flutter 3.3"),
               leading: const Icon(Icons.newspaper),
@@ -139,6 +174,9 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
                 launchUrl(Uri.parse("https://medium.com/flutter/whats-new-in-flutter-3-3-893c7b9af1ff"));
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              color: Colors.grey[200],
             ),
             ListTile(
               title: const Text("Dart 2.18: Objective-C & Swift interop"),
@@ -148,7 +186,9 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
               },
               trailing: const Icon(Icons.keyboard_arrow_right),
             ),
-            const Divider(),
+            Divider(
+              color: Colors.grey[200],
+            ),
             Text(
               "SelectionArea",
               style: Theme.of(context).textTheme.titleLarge,
@@ -170,7 +210,7 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
               "Scribble",
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            Text("アップルペンシルでお試しください"),
+            const Text("アップルペンシルでお試しください"),
             SizedBox(
               height: 320,
               child: Column(
@@ -188,7 +228,57 @@ class _Flutter3InfoPageState extends State<Flutter3InfoPage> {
                   ),
                 ],
               ),
-            )
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
+              "Impeller",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const Text("Impeller is a new rendering runtime for Flutter."
+                " It is our solution to Flutter's early-onset jank issue."
+                " Impeller precompiles a smaller, simpler set of shaders at Engine build time "
+                "so that they will not be compiled while an app is running."),
+            Image.network("https://raw.githubusercontent.com/flutter/engine/main/impeller/docs/assets/showcase.png"),
+            const Text('Predictable Performance: All shader compilation and reflection is performed offline at build time. '
+                'All pipeline state objects are built upfront. '
+                'Caching is explicit and under the control of the engine.'),
+            ListTile(
+              title: const Text("Impeller - Wiki"),
+              leading: const Icon(Icons.newspaper),
+              onTap: () {
+                launchUrl(Uri.parse("https://github.com/flutter/flutter/wiki/Impeller"));
+              },
+              trailing: const Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              color: Colors.grey[200],
+            ),
+            ListTile(
+              title: const Text("Impeller Repository"),
+              leading: const Icon(Icons.newspaper),
+              onTap: () {
+                launchUrl(Uri.parse("https://github.com/flutter/engine/tree/main/impeller"));
+              },
+              trailing: const Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              color: Colors.grey[200],
+            ),
+            ListTile(
+              title: const Text(
+                  "Consider using a static set of less specialized shaders that can be compiled on startup #77412"),
+              leading: const Icon(Icons.newspaper),
+              onTap: () {
+                launchUrl(Uri.parse("https://github.com/flutter/flutter/issues/77412"));
+              },
+              trailing: const Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              color: Colors.grey[200],
+            ),
           ],
         ),
       ),

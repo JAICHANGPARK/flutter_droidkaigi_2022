@@ -108,8 +108,8 @@ class _DoublePendulumState extends State<DoublePendulum> with SingleTickerProvid
 
   double noOfPendulums = 2;
   double gravity = 9.8;
-  double pendulum1Length = 100;
-  double pendulum2Length = 100;
+  double pendulum1Length = 70;
+  double pendulum2Length = 90;
   double pendulum1Mass = 3;
   double pendulum2Mass = 3;
   double pendulum1Angle = 10;

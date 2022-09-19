@@ -71,37 +71,58 @@ class _KaigiHomeScreenState extends State<KaigiHomeScreen> {
                                 ],
                               ),
                             ),
-                            Text(
-                              "通常、RoboticsではROSとAndroidまたはQTを組み合わせてユーザーアプリケーションを開発しています。"
-                              "今回Flutter3が発表され、デスクトップ、組み込み領域で使用できるように機能が拡張されました。"
-                              "生産性が高いユーザーアプリケーションを作成するためにロボットにFlutterを適用してみました。",
-                              style: Theme.of(context).textTheme.bodyMedium,
+                            Card(
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "通常、RoboticsではROSとAndroidまたはQTを組み合わせてユーザーアプリケーションを開発しています。"
+                                      "今回Flutter3が発表され、デスクトップ、組み込み領域で使用できるように機能が拡張されました。"
+                                      "生産性が高いユーザーアプリケーションを作成するためにロボットにFlutterを適用してみました。",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    Text(
+                                      "\n\nそのためには、ロボットとアプリ間通信するためのプロトコルライブラリの開発が必要です。パッケージ開発方法と物語、そして実務で使用している例示を通じて使用機を紹介したいと思います。",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            Text(
-                              "\n\nそのためには、ロボットとアプリ間通信するためのプロトコルライブラリの開発が必要です。パッケージ開発方法と物語、そして実務で使用している例示を通じて使用機を紹介したいと思います。",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            const Divider(),
-                            Text(
-                              "関連技術",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(
-                              "1. Flutter & Flutter Desktop (Linux)",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              "2. ROS2",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              "3. Websocket",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              "4. gRPC",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
+                            Card(
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "関連技術",
+                                      style: Theme.of(context).textTheme.titleMedium,
+                                    ),
+                                    Text(
+                                      "1. Flutter & Flutter Desktop (Linux)",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    Text(
+                                      "2. ROS2",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    Text(
+                                      "3. Websocket",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    Text(
+                                      "4. gRPC",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -127,7 +148,9 @@ class _KaigiHomeScreenState extends State<KaigiHomeScreen> {
                         "Dreamwalker(Jai-Chang. Park)",
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      const SizedBox(height: 4,),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Text(
                         "Flutter & Android Developer",
                         style: Theme.of(context).textTheme.titleMedium,
@@ -136,11 +159,21 @@ class _KaigiHomeScreenState extends State<KaigiHomeScreen> {
                         height: 16,
                       ),
                       const Divider(),
-
                       ListTile(
                         leading: const Text("現"),
+                        title: const Text("Flutter Seoul"),
+                        subtitle: const Text("2022.9.18 ~"),
+                        trailing: const Text("Organizer(運営)"),
+                        onTap: () async {
+                          await launchUrl(
+                            Uri.parse("https://medium.com/flutter-korea"),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Text("前"),
                         title: const Text("Flutter Korea"),
-                        subtitle: const Text("2022~"),
+                        subtitle: const Text("~ 2022.9.18"),
                         trailing: const Text("Organizer(運営)"),
                         onTap: () async {
                           await launchUrl(
