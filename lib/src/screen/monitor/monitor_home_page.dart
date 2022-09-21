@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/monitor/fake_monitor_page.dart';
 import 'package:roslibdart/roslibdart.dart';
 
 class MonitorHomePage extends StatefulWidget {
@@ -74,75 +75,100 @@ class _MonitorHomePageState extends State<MonitorHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView(
+    return DefaultTabController(
+      length: 2,
+      child: Column(
         children: [
-          SizedBox(
-            child: Row(
+          TabBar(tabs: [
+            Tab(
+              text: "Fake",
+            ),
+            Tab(
+              text: "Real",
+            ),
+          ]),
+          Expanded(
+            child: TabBarView(
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: ipTextController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      MyInputFormatters.ipAddressInputFilter(),
-                      LengthLimitingTextInputFormatter(15),
-                      IpAddressInputFormatter()
+                //TODO: Fake
+                FakeMonitorPage(),
+
+                //TODO: Real
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView(
+                    children: [
+                      SizedBox(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: ipTextController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  MyInputFormatters.ipAddressInputFilter(),
+                                  LengthLimitingTextInputFormatter(15),
+                                  IpAddressInputFormatter()
+                                ],
+                                decoration: const InputDecoration(
+                                  filled: true,
+                                  labelText: "IP",
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Expanded(
+                                child: TextField(
+                              controller: portTextController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                filled: true,
+                                labelText: "Port",
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await connect();
+                              },
+                              child: const Text("接続"),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                destroyConnection();
+                              },
+                              child: const Text("接続解除"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text("Temperature"),
+                      Text("CPU"),
+                      Text("GPU"),
+                      Text("Battery"),
                     ],
-                    decoration: const InputDecoration(
-                      filled: true,
-                      labelText: "IP",
-                    ),
                   ),
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Expanded(
-                    child: TextField(
-                  controller: portTextController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    filled: true,
-                    labelText: "Port",
-                  ),
-                )),
               ],
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await connect();
-                  },
-                  child: const Text("接続"),
-                ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Expanded(
-                flex: 3,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    destroyConnection();
-                  },
-                  child: const Text("接続解除"),
-                ),
-              ),
-            ],
-          ),
-          Text("Temperature"),
-          Text("CPU"),
-          Text("GPU"),
-          Text("Battery"),
         ],
       ),
     );
