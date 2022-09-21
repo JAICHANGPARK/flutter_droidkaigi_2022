@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/monitor/fake_monitor_page.dart';
+import 'package:flutter_droidkaigi_2022/src/screen/monitor/real_monitor_page.dart';
 import 'package:roslibdart/roslibdart.dart';
 
 class MonitorHomePage extends StatefulWidget {
@@ -14,158 +15,31 @@ class MonitorHomePage extends StatefulWidget {
 }
 
 class _MonitorHomePageState extends State<MonitorHomePage> {
-  TextEditingController ipTextController = TextEditingController();
-  TextEditingController portTextController = TextEditingController(text: "9090");
-
-  late Ros ros;
-  late Topic chatter;
-  String msgReceived = '';
-
-  Future initRos() async {
-    // ros = Ros(url: 'ws://127.0.0.1:9090');
-    if (ipTextController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("ip 情報を入力してください。")));
-      return;
-    }
-    if (portTextController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("port 情報を入力してください。")));
-      return;
-    }
-    ros = Ros(url: 'ws://${ipTextController.text.trim()}:${portTextController.text.trim()}');
-    chatter = Topic(
-      ros: ros,
-      name: '/topic',
-      type: "std_msgs/String",
-      reconnectOnClose: true,
-      queueLength: 10,
-      queueSize: 10,
-    );
-    ros.connect();
-  }
-
-  Future<void> subscribeHandler(Map<String, dynamic> msg) async {
-    msgReceived = json.encode(msg);
-    setState(() {});
-  }
-
-  void destroyConnection() async {
-    await chatter.unsubscribe();
-    await ros.close();
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    destroyConnection();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future connect() async {
-    initRos();
-    Timer(const Duration(seconds: 3), () async {
-      await chatter.subscribe(subscribeHandler);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Column(
         children: [
-          TabBar(tabs: [
-            Tab(
-              text: "Fake",
-            ),
-            Tab(
-              text: "Real",
-            ),
-          ]),
-          Expanded(
+          TabBar(
+              labelColor: Theme.of(context).colorScheme.primary,
+              indicatorColor: Theme.of(context).colorScheme.primary,
+              tabs: const [
+                Tab(
+                  text: "Fake",
+                ),
+                Tab(
+                  text: "Real",
+                ),
+              ]),
+          const Expanded(
             child: TabBarView(
               children: [
                 //TODO: Fake
                 FakeMonitorPage(),
 
                 //TODO: Real
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ListView(
-                    children: [
-                      SizedBox(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: ipTextController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  MyInputFormatters.ipAddressInputFilter(),
-                                  LengthLimitingTextInputFormatter(15),
-                                  IpAddressInputFormatter()
-                                ],
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  labelText: "IP",
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                                child: TextField(
-                              controller: portTextController,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                filled: true,
-                                labelText: "Port",
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                await connect();
-                              },
-                              child: const Text("接続"),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                destroyConnection();
-                              },
-                              child: const Text("接続解除"),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text("Temperature"),
-                      Text("CPU"),
-                      Text("GPU"),
-                      Text("Battery"),
-                    ],
-                  ),
-                ),
+                RealMonitorPage(),
               ],
             ),
           ),
