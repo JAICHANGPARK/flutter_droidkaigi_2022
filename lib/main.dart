@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_droidkaigi_2022/src/game/manager/game_manager.dart';
 import 'package:flutter_droidkaigi_2022/src/kaigi_main_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/provider/theme_provider.dart';
-import 'package:flutter_droidkaigi_2022/src/screen/enter_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/enter_vertical_text.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/lab/lab_home_screen.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/setting_screen.dart';

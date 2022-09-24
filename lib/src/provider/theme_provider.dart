@@ -8,11 +8,10 @@ final colorSelected = StateProvider<int>((ref) => 0);
 
 final themeProvider = StateNotifierProvider<ThemeController, ThemeData>((ref) {
   final themeData = ThemeData(
-    colorSchemeSeed: colorOptions[0],
-    useMaterial3: ref.read(useMaterial3),
-    brightness: ref.read(useLightMode) ? Brightness.light : Brightness.dark,
-
-  );
+      colorSchemeSeed: colorOptions[0],
+      useMaterial3: ref.read(useMaterial3),
+      brightness: ref.read(useLightMode) ? Brightness.light : Brightness.dark,
+      fontFamily: "NotoSansJP");
   return ThemeController(themeData, ref.read);
 });
 
@@ -29,8 +28,7 @@ class ThemeController extends StateNotifier<ThemeData> {
         colorSchemeSeed: colorOptions[colorIndex],
         useMaterial3: useMaterial3,
         brightness: useLightMode ? Brightness.light : Brightness.dark,
-
-    );
+        fontFamily: "NotoSansJP");
   }
 
   void handleBrightnessChange() {
