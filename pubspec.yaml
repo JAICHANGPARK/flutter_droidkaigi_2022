@@ -39,11 +39,16 @@ dependencies:
   gauges: ^1.0.0
   pretty_gauge: ^1.0.1
 
+  json_annotation: ^4.7.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.1
+  build_runner: any
+  json_serializable: any
 
 flutter:
   uses-material-design: true
