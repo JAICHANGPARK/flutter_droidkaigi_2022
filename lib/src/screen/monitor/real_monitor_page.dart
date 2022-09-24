@@ -5,6 +5,8 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_droidkaigi_2022/src/model/msg_battery_state.dart';
+import 'package:flutter_droidkaigi_2022/src/model/msg_temperature.dart';
 import 'package:flutter_droidkaigi_2022/src/screen/monitor/monitor_home_page.dart';
 import 'package:pretty_gauge/pretty_gauge.dart';
 import 'package:roslibdart/roslibdart.dart';
@@ -23,6 +25,7 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
   List<FlSpot> cpuTemperatureItems = [];
   List<FlSpot> gpuTemperatureItems = [];
   List<FlSpot> batteryItems = [];
+  List<FlSpot> batteryCurrentItems = [];
   List<FlSpot> sineItems = [];
   List<double> rawSineItems = [];
   List<FlSpot> cosItems = [];
@@ -37,16 +40,28 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
 
   late Ros ros;
   late Topic chatter;
+  late Topic temperatureTopic;
+  late Topic cpuTemperatureTopic;
+  late Topic gpuTemperatureTopic;
+  late Topic batteryTopic;
   String msgReceived = '';
 
   Future initRos() async {
     // ros = Ros(url: 'ws://127.0.0.1:9090');
     if (ipTextController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("ip 情報を入力してください。")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("ip 情報を入力してください。"),
+        ),
+      );
       return;
     }
     if (portTextController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("port 情報を入力してください。")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("port 情報を入力してください。"),
+        ),
+      );
       return;
     }
     ros = Ros(url: 'ws://${ipTextController.text.trim()}:${portTextController.text.trim()}');
@@ -58,17 +73,77 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
       queueLength: 10,
       queueSize: 10,
     );
+
+    batteryTopic = Topic(
+      ros: ros,
+      name: '/topic/battery',
+      type: "sensor_msgs/BatteryState",
+      reconnectOnClose: true,
+      queueLength: 10,
+      queueSize: 10,
+    );
+
+    cpuTemperatureTopic = Topic(
+      ros: ros,
+      name: '/topic/cpu_temp',
+      type: "sensor_msgs/Temperature",
+      reconnectOnClose: true,
+      queueLength: 10,
+      queueSize: 10,
+    );
+
     ros.connect();
+  }
+
+  Future connect() async {
+    initRos();
+    Timer(const Duration(seconds: 3), () async {
+      await chatter.subscribe(subscribeHandler);
+      await batteryTopic.subscribe(subscribeBatteryStateHandler);
+      await cpuTemperatureTopic.subscribe(subscribeCpuTempHandler);
+    });
   }
 
   Future<void> subscribeHandler(Map<String, dynamic> msg) async {
     msgReceived = json.encode(msg);
+    print("subscribeHandler: $msgReceived");
+    setState(() {});
+  }
+
+  Future<void> subscribeCpuTempHandler(Map<String, dynamic> msg) async {
+    msgReceived = json.encode(msg);
+    print("subscribeCpuTempHandler: $msgReceived");
+    MsgTemperature msgTemperature = MsgTemperature.fromJson(msg);
+    cpuTemperatureItems.add(FlSpot(chartXIndex, msgTemperature.temperature));
+    chartXIndex++;
+    if (cpuTemperatureItems.length > 15) {
+      cpuTemperatureItems.removeAt(0);
+    }
+    setState(() {});
+  }
+
+  double chartBatteryXIndex = 0;
+
+  Future<void> subscribeBatteryStateHandler(Map<String, dynamic> msg) async {
+    msgReceived = json.encode(msg);
+    // print("msgReceived: $msgReceived");
+    MsgBatteryState msgBatteryState = MsgBatteryState.fromJson(msg);
+    print("voltage: ${msgBatteryState.voltage} ");
+    batteryItems.add(FlSpot(chartBatteryXIndex, msgBatteryState.voltage));
+    batteryCurrentItems.add(FlSpot(chartBatteryXIndex, msgBatteryState.current));
+    chartBatteryXIndex++;
+    if (batteryItems.length > 15) {
+      batteryItems.removeAt(0);
+    }
     setState(() {});
   }
 
   void destroyConnection() async {
     await chatter.unsubscribe();
+    await batteryTopic.unsubscribe();
+    await cpuTemperatureTopic.unsubscribe();
     await ros.close();
+    chartBatteryXIndex = 0;
     setState(() {});
   }
 
@@ -85,32 +160,25 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
     super.initState();
   }
 
-  Future connect() async {
-    initRos();
-    Timer(const Duration(seconds: 3), () async {
-      await chatter.subscribe(subscribeHandler);
-    });
-  }
-
   Future start() async {
     for (int i = 0; i < 360; i++) {
       rawSineItems.add(sin((i / 180) * pi));
       rawCosItems.add(cos((i / 180) * pi));
     }
-    pTimer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
-      temperatureItems.add(FlSpot(chartXIndex, ((Random().nextDouble() * 10) + 35.1)));
-      cpuTemperatureItems.add(FlSpot(chartXIndex, ((Random().nextDouble() * 10) + 40.1)));
-      gpuTemperatureItems.add(FlSpot(chartXIndex, ((Random().nextDouble() * 10) + 60.1)));
-      batteryItems.add(FlSpot(chartXIndex, ((Random().nextDouble() + 98.0))));
-      chartXIndex++;
-      // print(temperatureItems);
-      if (temperatureItems.length > 15) {
-        temperatureItems.removeAt(0);
-        cpuTemperatureItems.removeAt(0);
-        gpuTemperatureItems.removeAt(0);
-      }
-      setState(() {});
-    });
+    // pTimer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   temperatureItems.add(FlSpot(chartXIndex, ((Random().nextDouble() * 10) + 35.1)));
+    //   cpuTemperatureItems.add(FlSpot(chartXIndex, ((Random().nextDouble() * 10) + 40.1)));
+    //   gpuTemperatureItems.add(FlSpot(chartXIndex, ((Random().nextDouble() * 10) + 60.1)));
+    //   batteryItems.add(FlSpot(chartXIndex, ((Random().nextDouble() + 98.0))));
+    //   chartXIndex++;
+    //   // print(temperatureItems);
+    //   if (temperatureItems.length > 15) {
+    //     temperatureItems.removeAt(0);
+    //     cpuTemperatureItems.removeAt(0);
+    //     gpuTemperatureItems.removeAt(0);
+    //   }
+    //   setState(() {});
+    // });
     //1/60  = 0.167
     angelTimer ??= Timer.periodic(const Duration(milliseconds: 16), (timer) {
       sineItems.add(FlSpot(chartAngelXIndex, rawSineItems[angelIndex]));
@@ -188,6 +256,7 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
                 flex: 3,
                 child: ElevatedButton(
                   onPressed: () async {
+                    start();
                     await connect();
                   },
                   child: const Text("接続"),
@@ -200,37 +269,8 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
                 flex: 3,
                 child: ElevatedButton(
                   onPressed: () async {
-                    destroyConnection();
-                  },
-                  child: const Text("接続解除"),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // await connect();
-                    start();
-                  },
-                  child: const Text("接続"),
-                ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Expanded(
-                flex: 3,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // destroyConnection();
                     cancel();
+                    destroyConnection();
                   },
                   child: const Text("接続解除"),
                 ),
@@ -557,6 +597,56 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
                             right: 8,
                             child: Text(
                               "${batteryItems.isNotEmpty ? batteryItems.last.y.toStringAsFixed(1) : "??"} %",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  ///Battery Current
+                  SizedBox(
+                    width: 800,
+                    height: 200,
+                    child: Card(
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 8,
+                            right: 8,
+                            bottom: 8,
+                            top: 8,
+                            child: LineChart(
+                              LineChartData(
+                                maxY: 5,
+                                minY: 0,
+                                titlesData: FlTitlesData(
+                                  topTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: false,
+                                    ),
+                                  ),
+                                  rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: false,
+                                    ),
+                                  ),
+                                ),
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    isCurved: true,
+                                    spots: batteryCurrentItems.map((e) => e).toList(),
+                                    color: Colors.orange,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: Text(
+                              "${batteryCurrentItems.isNotEmpty ? batteryCurrentItems.last.y.toStringAsFixed(1) : "??"} A",
                             ),
                           ),
                         ],

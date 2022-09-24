@@ -19,6 +19,7 @@ class _MonitorHomePageState extends State<MonitorHomePage> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+
       child: Column(
         children: [
           TabBar(
@@ -34,6 +35,7 @@ class _MonitorHomePageState extends State<MonitorHomePage> {
               ]),
           const Expanded(
             child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
               children: [
                 //TODO: Fake
                 FakeMonitorPage(),
