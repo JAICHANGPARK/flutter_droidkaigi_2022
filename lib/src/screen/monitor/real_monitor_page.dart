@@ -44,7 +44,9 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
   late Topic cpuTemperatureTopic;
   late Topic gpuTemperatureTopic;
   late Topic batteryTopic;
+  late Topic controlTopic;
   String msgReceived = '';
+  double chartBatteryXIndex = 0;
 
   Future initRos() async {
     // ros = Ros(url: 'ws://127.0.0.1:9090');
@@ -83,10 +85,36 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
       queueSize: 10,
     );
 
+    temperatureTopic = Topic(
+      ros: ros,
+      name: '/topic/general_temp',
+      type: "sensor_msgs/Temperature",
+      reconnectOnClose: true,
+      queueLength: 10,
+      queueSize: 10,
+    );
+
     cpuTemperatureTopic = Topic(
       ros: ros,
       name: '/topic/cpu_temp',
       type: "sensor_msgs/Temperature",
+      reconnectOnClose: true,
+      queueLength: 10,
+      queueSize: 10,
+    );
+    gpuTemperatureTopic = Topic(
+      ros: ros,
+      name: '/topic/cpu_temp',
+      type: "sensor_msgs/Temperature",
+      reconnectOnClose: true,
+      queueLength: 10,
+      queueSize: 10,
+    );
+
+    controlTopic = Topic(
+      ros: ros,
+      name: '/topic/kaigi_control',
+      type: "std_msgs/String",
       reconnectOnClose: true,
       queueLength: 10,
       queueSize: 10,
@@ -100,7 +128,9 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
     Timer(const Duration(seconds: 3), () async {
       await chatter.subscribe(subscribeHandler);
       await batteryTopic.subscribe(subscribeBatteryStateHandler);
+      await temperatureTopic.subscribe(subscribeTempHandler);
       await cpuTemperatureTopic.subscribe(subscribeCpuTempHandler);
+      await gpuTemperatureTopic.subscribe(subscribeGpuTempHandler);
     });
   }
 
@@ -110,19 +140,40 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
     setState(() {});
   }
 
+  Future<void> subscribeTempHandler(Map<String, dynamic> msg) async {
+    msgReceived = json.encode(msg);
+    print("subscribeTempHandler: $msgReceived");
+    MsgTemperature msgTemperature = MsgTemperature.fromJson(msg);
+    temperatureItems.add(FlSpot(chartXIndex, msgTemperature.temperature));
+    if (temperatureItems.length > 15) {
+      temperatureItems.removeAt(0);
+    }
+    setState(() {});
+  }
+
   Future<void> subscribeCpuTempHandler(Map<String, dynamic> msg) async {
     msgReceived = json.encode(msg);
     print("subscribeCpuTempHandler: $msgReceived");
     MsgTemperature msgTemperature = MsgTemperature.fromJson(msg);
     cpuTemperatureItems.add(FlSpot(chartXIndex, msgTemperature.temperature));
-    chartXIndex++;
+
     if (cpuTemperatureItems.length > 15) {
       cpuTemperatureItems.removeAt(0);
     }
     setState(() {});
   }
 
-  double chartBatteryXIndex = 0;
+  Future<void> subscribeGpuTempHandler(Map<String, dynamic> msg) async {
+    msgReceived = json.encode(msg);
+    print("subscribeGpuTempHandler: $msgReceived");
+    MsgTemperature msgTemperature = MsgTemperature.fromJson(msg);
+    gpuTemperatureItems.add(FlSpot(chartXIndex, msgTemperature.temperature));
+    chartXIndex++;
+    if (gpuTemperatureItems.length > 15) {
+      gpuTemperatureItems.removeAt(0);
+    }
+    setState(() {});
+  }
 
   Future<void> subscribeBatteryStateHandler(Map<String, dynamic> msg) async {
     msgReceived = json.encode(msg);
@@ -279,6 +330,50 @@ class _RealMonitorPageState extends State<RealMonitorPage> {
           ),
           const SizedBox(
             height: 24,
+          ),
+          const Text(
+            "Command - Control",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              runSpacing: 16,
+              spacing: 8,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    Map<String, dynamic> json = {"data": "UP"};
+                    await controlTopic.publish(json);
+                  },
+                  child: const Text("UP"),
+                ),
+                ElevatedButton(
+                  onPressed: () async{
+                    Map<String, dynamic> json = {"data": "DOWN"};
+                    await controlTopic.publish(json);
+                  },
+                  child: const Text("Down"),
+                ),
+                ElevatedButton(
+                  onPressed: () async{
+                    Map<String, dynamic> json = {"data": "LEFT"};
+                    await controlTopic.publish(json);
+                  },
+                  child: const Text("Left"),
+                ),
+                ElevatedButton(
+                  onPressed: () async{
+                    Map<String, dynamic> json = {"data": "RIGHT"};
+                    await controlTopic.publish(json);
+                  },
+                  child: const Text("Right"),
+                ),
+              ],
+            ),
           ),
           const Text(
             "Temperature",
