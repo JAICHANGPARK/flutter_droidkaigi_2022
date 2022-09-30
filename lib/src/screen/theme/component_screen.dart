@@ -59,6 +59,11 @@ class ComponentScreen extends StatelessWidget {
               const Switchs(),
               const Padding(
                 padding: EdgeInsets.all(8.0),
+                child: Text("CheckBox"),
+              ),
+              _CheckBoxs(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text("Sliders"),
               ),
               const Sliders(),
@@ -99,7 +104,6 @@ class _IconButtonsState extends State<IconButtons> {
     return Wrap(
       children: [
         IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
-       
       ],
     );
   }
@@ -386,6 +390,65 @@ class _SwitchsState extends State<Switchs> {
               })
         ],
       ),
+    );
+  }
+}
+
+class _CheckBoxs extends StatefulWidget {
+  const _CheckBoxs({Key? key}) : super(key: key);
+
+  @override
+  State<_CheckBoxs> createState() => _CheckBoxsState();
+}
+
+class _CheckBoxsState extends State<_CheckBoxs> {
+  bool _switchState0 = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Wrap(
+        alignment: WrapAlignment.spaceEvenly,
+        children: [
+          Checkbox(
+            value: _switchState0,
+            onChanged: (b) {
+              setState(() {
+                _switchState0 = b ?? false;
+              });
+            },
+          ),
+          CheckboxListTile(
+            title: Text("CheckBox"),
+            value: _switchState0,
+            onChanged: (b) {
+              setState(() {
+                _switchState0 = b ?? false;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Radios extends StatefulWidget {
+  const _Radios({Key? key}) : super(key: key);
+
+  @override
+  State<_Radios> createState() => _RadiosState();
+}
+
+class _RadiosState extends State<_Radios> {
+  @override
+  Widget build(BuildContext context) {
+    return RadioListTile(
+      value: 0,
+      groupValue: 0,
+      onChanged: (e) {},
+      title: Text("0"),
     );
   }
 }
