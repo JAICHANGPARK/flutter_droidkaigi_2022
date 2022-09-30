@@ -168,7 +168,7 @@ class _DoublePendulumState extends State<DoublePendulum> with SingleTickerProvid
                 (index) => Container(
                   width: 1,
                   margin: const EdgeInsets.only(right: 8),
-                  color: Colors.grey[200],
+                  color: Colors.grey[300],
                 ),
               ),
             ),
@@ -187,7 +187,7 @@ class _DoublePendulumState extends State<DoublePendulum> with SingleTickerProvid
                   (index) => Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     height: 1,
-                    color: Colors.grey[200],
+                    color: Colors.grey[300],
                   ),
                 ),
               ),
