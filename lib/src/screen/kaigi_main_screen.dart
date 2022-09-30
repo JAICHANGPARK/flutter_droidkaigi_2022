@@ -241,7 +241,47 @@ class _KaigiHomeScreenState extends State<KaigiHomeScreen> {
                   ),
                 ),
               ),
-              const SingleChildScrollView(),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: const Text("スライド"),
+                      onTap: () async {
+                        // await launchUrl(
+                        //   Uri.parse(
+                        //     "https://docs.google.com/presentation/d/1OUuQn4M7GQTokhnO7nhYYx78oaCwZu9h_AkFZkIFGbs/edit?usp=sharing",
+                        //   ),
+                        // );
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: const Text("1. 今年のFlutterまとめ"),
+                      onTap: () async {},
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: const Text("2. ROSについて"),
+                      onTap: () async {},
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: const Text("3. なぜFlutterだったのか"),
+                      onTap: () async {},
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: const Text("4. FlutterとROSの間やり取りする(インターフェース)方法"),
+                      onTap: () async {},
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: const Text("5. Demo 🔥"),
+                      onTap: () async {},
+                    ),
+                  ],
+                ),
+              ),
             ],
           )),
         ],
