@@ -14,9 +14,9 @@ dependencies:
 
   cupertino_icons: ^1.0.5
   flutter_svg: ^1.1.5
-  go_router: ^5.0.3
+  go_router: ^5.0.5
 
-  flutter_riverpod: ^2.0.0-dev.9
+  flutter_riverpod: ^2.0.2
   widget_with_codeview: ^2.0.1+2
 
   firebase_core: any
@@ -30,7 +30,7 @@ dependencies:
   youtube_player_iframe: ^3.1.0
   http: any
 
-  flame: ^1.3.0
+  flame: ^1.4.0
   get_it: any
 
   roslibdart: any

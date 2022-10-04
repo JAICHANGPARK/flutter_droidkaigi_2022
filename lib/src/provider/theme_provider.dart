@@ -13,16 +13,17 @@ final themeProvider = StateNotifierProvider<ThemeController, ThemeData>((ref) {
     brightness: ref.read(useLightMode) ? Brightness.light : Brightness.dark,
 
   );
-  return ThemeController(themeData, ref.read);
+  return ThemeController(themeData, ref);
 });
 
 class ThemeController extends StateNotifier<ThemeData> {
   // bool useMaterial3 = true;
   // bool useLightMode = true;
   // int colorSelected = 0;
-  Reader read;
+  Ref ref;
 
-  ThemeController(super.state, this.read);
+
+  ThemeController(super.state, this.ref);
 
   ThemeData updateThemes(int colorIndex, bool useMaterial3, bool useLightMode) {
     return ThemeData(
@@ -34,31 +35,31 @@ class ThemeController extends StateNotifier<ThemeData> {
   }
 
   void handleBrightnessChange() {
-    int oldColorSelected = read(colorSelected);
-    bool oldUseMaterial3 = read(useMaterial3);
-    bool oldUseLightMode = read(useLightMode);
+    int oldColorSelected = ref.read(colorSelected);
+    bool oldUseMaterial3 = ref.read(useMaterial3);
+    bool oldUseLightMode = ref.read(useLightMode);
     oldUseLightMode = !oldUseLightMode;
-    read(useLightMode.notifier).state = oldUseLightMode;
+    ref.read(useLightMode.notifier).state = oldUseLightMode;
     state = updateThemes(oldColorSelected, oldUseMaterial3, oldUseLightMode);
   }
 
   void handleMaterialVersionChange() {
-    int oldColorSelected = read(colorSelected);
-    bool oldUseMaterial3 = read(useMaterial3);
-    bool oldUseLightMode = read(useLightMode);
+    int oldColorSelected = ref.read(colorSelected);
+    bool oldUseMaterial3 = ref.read(useMaterial3);
+    bool oldUseLightMode = ref.read(useLightMode);
 
     oldUseMaterial3 = !oldUseMaterial3;
-    read(useMaterial3.notifier).state = oldUseMaterial3;
+    ref.read(useMaterial3.notifier).state = oldUseMaterial3;
     state = updateThemes(oldColorSelected, oldUseMaterial3, oldUseLightMode);
   }
 
   void handleColorSelect(int value) {
-    int oldColorSelected = read(colorSelected);
-    bool oldUseMaterial3 = read(useMaterial3);
-    bool oldUseLightMode = read(useLightMode);
+    int oldColorSelected = ref.read(colorSelected);
+    bool oldUseMaterial3 = ref.read(useMaterial3);
+    bool oldUseLightMode = ref.read(useLightMode);
 
     oldColorSelected = value;
-    read(colorSelected.notifier).state = oldColorSelected;
+    ref.read(colorSelected.notifier).state = oldColorSelected;
 
     state = updateThemes(oldColorSelected, oldUseMaterial3, oldUseLightMode);
   }
